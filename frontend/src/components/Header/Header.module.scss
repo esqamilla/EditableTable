@@ -1,0 +1,12 @@
+@import "src/styles/vars";
+
+.header {
+  background-color: $color_bg_secondary;
+  height: 44px;
+  line-height: 44px;
+  border-bottom: 1px solid $color_border_gray;
+  padding: 0 20px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}

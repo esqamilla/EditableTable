@@ -1,0 +1,7 @@
+.ant-btn {
+  &:hover {
+    svg > path {
+      fill: #fff;
+    }
+  }
+}

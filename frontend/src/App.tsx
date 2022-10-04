@@ -1,10 +1,21 @@
-import React from 'react';
+import {Button, Layout, Menu} from "antd";
+import React, {FC, useState} from 'react';
+import 'antd/dist/antd.css';
+import './styles/common.scss'
+import Header from "./components/Header/Header";
+import style from './App.module.scss'
 
-function App() {
+const { Sider, Content } = Layout;
+
+const App: FC = () => {
   return (
-    <div className="App">
-      Test
-    </div>
+    <Layout className={style.main_layout}>
+      <Header />
+      <Layout>
+        <Sider className={style.sider}>Sider</Sider>
+        <Content className={style.content}>Content</Content>
+      </Layout>
+    </Layout>
   );
 }
 

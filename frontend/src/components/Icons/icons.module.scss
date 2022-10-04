@@ -1,0 +1,19 @@
+@import "src/styles/vars";
+
+.icon {
+
+  path {
+    fill: $color_gray;
+    transition: fill 0.38s ease-in-out;
+  }
+
+  &_settings {
+    width: 16px;
+    height: 16px;
+  }
+
+  &_back {
+    width: 18px;
+    height: 15px;
+  }
+}
