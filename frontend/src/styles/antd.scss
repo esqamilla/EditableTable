@@ -1,7 +1,24 @@
+@import 'src/styles/vars';
+
 .ant-btn {
   &:hover {
     svg > path {
       fill: #fff;
+    }
+  }
+}
+
+
+
+.ant-dropdown-menu {
+  background-color: $color_bg_secondary;
+  border: 1px solid $color_border_gray;
+
+  .ant-dropdown-menu-item {
+    color: #fff;
+
+    &:hover {
+      background-color: $color_bg_light_gray;
     }
   }
 }

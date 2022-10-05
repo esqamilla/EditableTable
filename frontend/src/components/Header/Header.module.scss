@@ -2,11 +2,23 @@
 
 .header {
   background-color: $color_bg_secondary;
-  height: 44px;
-  line-height: 44px;
+  height: $height_header;
+  line-height: $height_header;
   border-bottom: 1px solid $color_border_gray;
   padding: 0 20px;
   color: #fff;
   display: flex;
   align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &_col {
+    display: flex;
+    align-items: center;
+  }
 }

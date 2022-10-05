@@ -1,0 +1,25 @@
+@import "src/styles/vars";
+
+.content {
+  background-color: $color_bg_primary;
+
+  &_header {
+    height: $height_header;
+    width: 100%;
+    border-bottom: 1px solid $color_border_gray;
+    background-color: $color_bg_secondary;
+    display: flex;
+    align-items: center;
+
+    &_item {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+      border-right: 1px solid $color_border_gray;
+      width: fit-content;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  }
+}

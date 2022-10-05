@@ -1,0 +1,21 @@
+@import "src/styles/vars";
+
+.table {
+  :global {
+    .ant-table {
+      background-color: transparent
+    }
+
+    .ant-table-thead > tr > th {
+      color: $color_gray;
+      background-color: transparent;
+      font-weight: 400;
+      border-color: $color_border_gray;
+    }
+
+    .ant-table-cell {
+      border-color: $color_border_gray;
+      color: #fff;
+    }
+  }
+}

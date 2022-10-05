@@ -1,0 +1,112 @@
+@import 'src/styles/vars';
+
+.sider {
+  background-color: $color_bg_secondary;
+  border-right: 1px solid $color_border_gray;
+}
+
+.menu {
+  width: 233px !important;
+  color: #fff;
+  background-color: transparent;
+  border-right: none;
+
+  :global {
+    .ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
+      height: 32px;
+      padding-left: 20px !important;
+      padding-top: 2px;
+      padding-bottom: 2px;
+      margin: 0;
+    }
+
+    .ant-menu-inline {
+      background-color: transparent;
+      color: #fff;
+    }
+
+    .ant-menu-submenu-title {
+      padding: 2px 20px;
+      height: $height_header !important;
+      border-bottom: 1px solid $color_border_gray;
+      margin: 0;
+      
+      &:active {
+        background-color: $color_bg_light_gray;
+        color: #fff;
+      }
+      
+      &:focus,
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .ant-menu-submenu-arrow {
+      &::after {
+        display: none;
+      }
+      &::before {
+        content: "";
+        width: 12px;
+        height: 8px;
+        background: url("../../icons/arrow-dawn.svg") no-repeat;
+        background-size: contain;
+        transform: rotate(0) translateY(-50%);
+      }
+    }
+
+    .ant-menu-item-selected {
+      background-color: $color_bg_light_gray !important;
+    }
+
+    .ant-menu-submenu-open.ant-menu-submenu-inline > .ant-menu-submenu-title > .ant-menu-submenu-arrow::before {
+      transform: rotate(180deg) translateY(40%);
+    }
+
+    .ant-menu-submenu-selected {
+      color: #fff;
+    }
+
+    .ant-menu-inline .ant-menu-selected::after, .ant-menu-inline .ant-menu-item-selected::after {
+      display: none;
+    }
+
+    .ant-menu-item {
+      color: #fff;
+
+      &:hover {
+        color: #fff;
+
+        background-color: $color_bg_light_gray;
+      }
+    }
+
+    .ant-menu-title-content {
+      height: 32px;
+      line-height: 32px;
+    }
+
+    .ant-space-item {
+      line-height: 14px;
+
+      .ant-typography {
+        color: $color_gray;
+      }
+    }
+
+    .ant-space {
+      gap: 0 !important;
+    }
+
+    .ant-menu-submenu-title > .ant-menu-title-content {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.subText {
+  font-size: 12px;
+  line-height: 12px;
+}
