@@ -1,8 +1,24 @@
 @import './reset.scss';
 @import './antd.scss';
+@import "vars";
 
 body {
     font-size: 14px;
     color: #fff;
+}
 
+* {
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $color_bg_primary;
+        border-radius: 10px;
+    }
 }

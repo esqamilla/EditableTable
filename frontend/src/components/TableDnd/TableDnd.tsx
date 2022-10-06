@@ -1,132 +1,88 @@
-import {MenuOutlined} from "@ant-design/icons";
 import {Table} from "antd";
 import React, {FC, useState} from 'react';
+import getColumns from "./getColumns";
+import {toMoney, toNumberWithSpaces} from "../../utils/moneyHelper";
+import IconsByType from "./components/IconsByType";
+import {tableData} from "../../testData/tableDnd";
+import {NewRowData, RowData, SaveRowReturn} from "../../types/table";
 import style from './TableDnd.module.scss'
 import type { ColumnsType } from 'antd/es/table';
-import type { SortableContainerProps, SortEnd } from 'react-sortable-hoc';
-import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
-import { arrayMoveImmutable } from 'array-move';
 
 interface TableDndProps {}
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  index: number;
+const testRow: NewRowData = {
+  type: "row",
+  quantity: 100,
+  price: 0,
+  unitPrice: 100,
+  unit: "м3",
+  parent: 2,
+  title: "Новая тестовая строка"
 }
 
-const DragHandle = SortableHandle(() => <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />);
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Уровень',
-    dataIndex: 'sort',
-    width: 110,
-    className: 'drag-visible',
-    render: () => <DragHandle />,
-  },
-  {
-    title: 'Наименование работ',
-    dataIndex: 'name',
-    className: 'drag-visible',
-  },
-  {
-    title: 'Ед. изм.',
-    width: 200,
-    dataIndex: 'age',
-  },
-  {
-    title: 'Количество',
-    width: 200,
-    dataIndex: 'address',
-  },
-  {
-    title: 'Цена за ед.',
-    width: 200,
-    dataIndex: 'address',
-  },
-  {
-    title: 'Стоимость',
-    width: 200,
-    dataIndex: 'address',
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    index: 0,
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    index: 1,
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    index: 2,
-  },
-];
-
-const SortableItem = SortableElement((props: React.HTMLAttributes<HTMLTableRowElement>) => (
-  <tr {...props} />
-));
-const SortableBody = SortableContainer((props: React.HTMLAttributes<HTMLTableSectionElement>) => (
-  <tbody {...props} />
-));
-
 const TableDnd: FC<TableDndProps> = ({}) => {
-  const [dataSource, setDataSource] = useState(data);
+  const [dataSource, setDataSource] = useState(tableData);
 
-  const onSortEnd = ({ oldIndex, newIndex }: SortEnd) => {
-    if (oldIndex !== newIndex) {
-      const newData = arrayMoveImmutable(dataSource.slice(), oldIndex, newIndex).filter(
-        (el: DataType) => !!el,
-      );
-      console.log('Sorted items: ', newData);
-      setDataSource(newData);
+  // функция для сохранения строки
+  function saveRow(rowData: NewRowData, storage: RowData[]) {
+    const index = Math.max(...storage.map((v) => v.id), 0) + 1
+    const row: RowData = {id: index, key: index, ...rowData}
+
+    console.log("row", row)
+    console.log("recalculation", recalculation(row.parent, storage))
+
+    storage.push(row)
+    return {
+      current: row,
+      changed: recalculation(row.parent, storage)
     }
-  };
+  }
 
-  const DraggableContainer = (props: SortableContainerProps) => (
-    <SortableBody
-      useDragHandle
-      disableAutoscroll
-      helperClass="row-dragging"
-      onSortEnd={onSortEnd}
-      {...props}
-    />
-  );
+  const onHandleSaveRow = () => {
+    setDataSource(saveRow(testRow, dataSource).changed)
+  }
 
-  const DraggableBodyRow: React.FC<any> = ({ className, style, ...restProps }) => {
-    // function findIndex base on Table rowKey props and should always be a right array index
-    const index = dataSource.findIndex(x => x.index === restProps['data-row-key']);
-    return <SortableItem index={index} {...restProps} />;
-  };
+// функция для изменения строки
+  const editRow = (row: RowData, storage: RowData[]): SaveRowReturn => {
+    const index = storage.findIndex((v) => v.id === row.id)
+    storage.splice(index, 1, row)
+
+    return {
+      current: row,
+      changed: recalculation(row.parent, storage)
+    }
+  }
+
+  function recalculation(parentID: number | null, storage: RowData[]) {
+    const rows = [...storage]
+    const changedRows: RowData[] = []
+
+    if (parentID == null) return changedRows
+    let currentParentIndex = rows.findIndex((v) => v.id === parentID)
+    if (currentParentIndex === -1) return changedRows
+    let currentParent = rows[currentParentIndex]
+
+    do {
+      const children = rows.filter((v) => v.parent == currentParent.id)
+      const newPrice = children.reduce((acc, v) => acc + v.price, 0)
+      if (currentParent.price === newPrice) break
+
+      rows[currentParentIndex].price = newPrice
+      changedRows.push(rows[currentParentIndex])
+
+      currentParentIndex = rows.findIndex((v) => v.id === currentParent.parent)
+    } while (currentParentIndex !== -1)
+
+    return changedRows
+  }
+
   console.log(style)
   return (
     <Table
       className={style.table}
       pagination={false}
       dataSource={dataSource}
-      columns={columns}
-      rowKey="index"
-      components={{
-        body: {
-          wrapper: DraggableContainer,
-          row: DraggableBodyRow,
-        },
-      }}
+      columns={getColumns({onSaveRow: onHandleSaveRow})}
     />
   );
 };

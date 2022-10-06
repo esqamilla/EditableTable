@@ -7,18 +7,12 @@ import style from "./SideBar.module.scss";
 interface SideBarProps {}
 
 const { Sider } = Layout;
-const rootSubmenuKeys = ['sub1'];
 
 const SideBar: FC<SideBarProps> = ({}) => {
   const [openKeys, setOpenKeys] = useState(['sub1']);
 
   const onOpenChange: MenuProps['onOpenChange'] = keys => {
-    const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
-    if (rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-      setOpenKeys(keys);
-    } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    }
+    setOpenKeys(keys);
   };
 
   return (

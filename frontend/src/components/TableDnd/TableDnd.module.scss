@@ -6,16 +6,128 @@
       background-color: transparent
     }
 
-    .ant-table-thead > tr > th {
-      color: $color_gray;
-      background-color: transparent;
-      font-weight: 400;
-      border-color: $color_border_gray;
+    .ant-table-thead > tr {
+      > th {
+        color: $color_gray;
+        background-color: transparent;
+        font-weight: 400;
+        border-color: $color_border_gray;
+      }
     }
 
     .ant-table-cell {
       border-color: $color_border_gray;
       color: #fff;
+      padding: 12px;
+
+      &:not(th) {
+        padding-bottom: 17.5px;
+        padding-top: 17.5px;
+      }
     }
+
+    .ant-table-tbody > tr.ant-table-row {
+      > td {
+        background-color: transparent !important;
+      }
+    }
+  }
+}
+
+.icon {
+  > img {
+    position: relative;
+    z-index: 3;
+    cursor: pointer;
+  }
+
+  &:not(.icon_root_level) {
+    position: relative;
+
+    &::before {
+      content: "";
+      width: 13px;
+      height: 60px;
+      position: absolute;
+      right: calc(100% - 4px);
+      bottom: 11px;
+      z-index: 1;
+      border: 1px solid $color_border_light_gray;
+      border-right: none;
+      border-top: none;
+      pointer-events: none !important;
+    }
+  }
+
+  &_additional_btns {
+    width: 15px;
+    height: 11px;
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    z-index: 2;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    background-color: $color_bg_primary;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    transform: translateY(-50%);
+    transition: all 0.38s ease-in-out;
+
+    > img {
+      margin-left: 2px;
+      cursor: pointer;
+      transform: scale(0);
+      opacity: 0;
+
+      transition: transform 0.38s ease-in-out, opacity 0.38s ease-in-out;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+
+  &:hover {
+    .icon_additional_btns {
+      background-color: $color_border_gray;
+      height: 28px;
+
+      > img {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+
+  &_root_level {
+    .icon_additional_btns {
+      left: 15px;
+    }
+
+    &:hover {
+      .icon_additional_btns {
+        width: 78px;
+        left: 11px;
+      }
+    }
+  }
+
+  &_sub_level {
+    margin-left: 20px;
+
+    &:hover {
+      .icon_additional_btns {
+        width: 54px;
+        left: -2px;
+      }
+    }
+  }
+
+  &_row {
+    margin-left: 40px;
   }
 }

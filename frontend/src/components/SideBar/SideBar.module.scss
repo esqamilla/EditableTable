@@ -3,6 +3,19 @@
 .sider {
   background-color: $color_bg_secondary;
   border-right: 1px solid $color_border_gray;
+  overflow-y: auto;
+  direction: rtl;
+  overflow-x: hidden;
+
+  > * {
+    direction: ltr;
+  }
+
+  &::-webkit-scrollbar {
+    position: fixed;
+    top: 10px;
+    display: none;
+  }
 }
 
 .menu {
@@ -18,6 +31,10 @@
       padding-top: 2px;
       padding-bottom: 2px;
       margin: 0;
+    }
+
+    .ant-menu-submenu-open {
+      border-bottom: 1px solid $color_border_gray;
     }
 
     .ant-menu-inline {
