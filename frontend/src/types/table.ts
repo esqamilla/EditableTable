@@ -20,3 +20,8 @@ export interface SaveRowReturn {
   current: RowData;
   changed: RowData[];
 }
+
+export interface CreateTableRowArgs {
+  type: RowDataType,
+  parent: RowData["parent"]
+}

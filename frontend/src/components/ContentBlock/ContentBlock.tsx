@@ -1,6 +1,6 @@
 import {Layout} from "antd";
 import React, {FC} from 'react';
-import TableDnd from "../TableDnd/TableDnd";
+import TableEditable from "../TableDnd/TableEditable";
 import ContentBlockHeader from "../ContentBlock/ContentBlockHeader";
 import style from "./ContentBlock.module.scss";
 
@@ -13,7 +13,7 @@ const ContentBlock: FC<ContentBlockProps> = ({}) => {
     <Content className={style.content}>
       <ContentBlockHeader />
 
-      <TableDnd />
+      <TableEditable />
     </Content>
   );
 };

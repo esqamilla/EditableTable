@@ -21,7 +21,6 @@ const Menu: FC<MenuProps> = ({}) => {
   const [current, setCurrent] = useState('mail');
 
   const onClick: MenuPropsAntd['onClick'] = e => {
-    console.log('click ', e);
     setCurrent(e.key);
   };
   return (

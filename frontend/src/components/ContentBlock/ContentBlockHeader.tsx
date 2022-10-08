@@ -6,7 +6,6 @@ interface ContentBlockHeaderProps {
 }
 
 const ContentBlockHeader: FC<ContentBlockHeaderProps> = ({}) => {
-  console.log(style)
   return (
     <div className={style.content_header}>
       <div className={style.content_header_item}>Строительно-монтажные работы</div>

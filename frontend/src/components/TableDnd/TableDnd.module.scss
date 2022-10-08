@@ -21,8 +21,7 @@
       padding: 12px;
 
       &:not(th) {
-        padding-bottom: 17.5px;
-        padding-top: 17.5px;
+        height: 60px;
       }
     }
 
@@ -30,6 +29,26 @@
       > td {
         background-color: transparent !important;
       }
+    }
+
+    .ant-input {
+      height: 35px;
+      padding: 10px;
+      -webkit-border-radius: 6px;
+      -moz-border-radius: 6px;
+      border-radius: 6px;
+      color: $color_input;
+      background-color: transparent !important;
+      margin-bottom: 0 !important;
+      border-color: $color_border_gray;
+
+      &:hover, &:focus, &:active {
+        border-color: $color_border_gray;
+      }
+    }
+
+    .ant-form-item-explain-error {
+      display: none;
     }
   }
 }
@@ -41,13 +60,24 @@
     cursor: pointer;
   }
 
+  &_helper {
+    width: 13px;
+    height: 20px;
+    position: absolute;
+    right: calc(100% - 4px);
+    bottom: 11px;
+    z-index: 1;
+    border-left: 1px solid $color_border_light_gray;
+    pointer-events: none !important;
+  }
+
   &:not(.icon_root_level) {
     position: relative;
 
     &::before {
       content: "";
       width: 13px;
-      height: 60px;
+      //height: 60px;
       position: absolute;
       right: calc(100% - 4px);
       bottom: 11px;
@@ -129,5 +159,9 @@
 
   &_row {
     margin-left: 40px;
+
+    &_firstLevel {
+      margin-left: 20px;
+    }
   }
 }

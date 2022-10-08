@@ -45,5 +45,5 @@ export const tableData: RowData[] = [
     price: 0,
     parent: 2,
     type: "row"
-  }
+  },
 ]

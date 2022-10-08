@@ -9,19 +9,40 @@ import subLevelIconSrc from '../../../icons/level-2.svg';
 import rowIconSrc from '../../../icons/row.svg';
 
 interface IconsByTypeProps {
+  id: number;
   type: RowData["type"];
   parent: RowData["parent"];
-  onSaveRow: GetColumnsProps["onSaveRow"];
+  createTableRow: GetColumnsProps["createTableRow"];
+  lengthFromParent: number;
+  rowFromFirstLevel: boolean;
 }
 
-const IconsByType: FC<IconsByTypeProps> = ({parent, type, onSaveRow}) => {
+const IconsByType: FC<IconsByTypeProps> = ({id, rowFromFirstLevel, parent, type, createTableRow, lengthFromParent}) => {
   if (parent === null) {
     return (
       <div className={concatClasses(style.icon, style.icon_root_level)}>
-        <img src={rootLevelIconSrc} alt={"Уровень 1"} />
+        <img
+          src={rootLevelIconSrc}
+          alt={"Уровень 1"}
+          onClick={() => {
+            createTableRow({
+              type: "level",
+              parent,
+            })
+          }} />
         <div className={style.icon_additional_btns}>
-          <img src={subLevelIconSrc} alt={"Уровень 2"} />
-          <img src={rowIconSrc} alt={"Строка"} />
+          <img src={subLevelIconSrc} alt={"Уровень 2"} onClick={() => {
+            createTableRow({
+              type: "level",
+              parent: id,
+            })
+          }} />
+          <img src={rowIconSrc} alt={"Строка"} onClick={() => {
+            createTableRow({
+              type: "row",
+              parent: id,
+            })
+          }} />
         </div>
       </div>
     )
@@ -30,17 +51,34 @@ const IconsByType: FC<IconsByTypeProps> = ({parent, type, onSaveRow}) => {
   if (type === "level") {
     return (
       <div className={concatClasses(style.icon, style.icon_sub_level)}>
-        <img src={subLevelIconSrc} alt={"Уровень 2"} />
+        <span style={{ height: `${60 * lengthFromParent}px` }} className={style.icon_helper}></span>
+        <img src={subLevelIconSrc} alt={"Уровень 2"} onClick={() => {
+          createTableRow({
+            type: "level",
+            parent,
+          })
+        }} />
         <div className={style.icon_additional_btns}>
-          <img src={rowIconSrc} alt={"Строка"} onClick={onSaveRow} />
+          <img src={rowIconSrc} alt={"Строка"} onClick={() => {
+            createTableRow({
+              type: "row",
+              parent: id,
+            })
+          }} />
         </div>
       </div>
     )
   }
 
   return (
-    <div className={concatClasses(style.icon, style.icon_row)}>
-      <img src={rowIconSrc} alt={"Строка"} />
+    <div className={concatClasses(style.icon, style.icon_row, rowFromFirstLevel && style.icon_row_firstLevel)}>
+      <span style={{ height: `${60 * lengthFromParent}px` }} className={style.icon_helper}></span>
+      <img src={rowIconSrc} alt={"Строка"} onClick={() => {
+        createTableRow({
+          type: "row",
+          parent
+        })
+      }} />
     </div>
   )
 };
