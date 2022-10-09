@@ -1,6 +1,6 @@
 import { Layout } from "antd";
+import TableEditable from "components/EditableTable/EditableTable";
 import React, { FC } from "react";
-import TableEditable from "../TableDnd/TableEditable";
 import style from "./ContentBlock.module.scss";
 import ContentBlockHeader from "./ContentBlockHeader";
 
