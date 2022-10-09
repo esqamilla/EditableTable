@@ -1,8 +1,8 @@
-import {Form, Input, InputNumber, InputRef} from "antd";
-import {FC, Key, ReactNode, useContext, useEffect, useRef, useState} from "react";
-import {log} from "util";
-import {EditableContext} from "./EditableRow";
-import {RowData} from "../../../types/table";
+import { Form, Input, InputRef } from "antd";
+import { FC, ReactNode, useContext, useEffect, useRef } from "react";
+import { EditTableValues, RowData, SaveRowReturn } from "types/table";
+import { EditableContext } from "./EditableRow";
+
 interface EditableCellProps {
   title: ReactNode;
   editable: boolean;
@@ -11,9 +11,10 @@ interface EditableCellProps {
   record: RowData;
   editing: boolean;
   setEditingKey: (key: number) => void;
-  handleSave: (record: RowData) => void;
+  handleSave: (record: RowData, storage: RowData[]) => SaveRowReturn;
   disabled: boolean;
   setDisabled: (value: boolean) => void;
+  dataSource: RowData[];
 }
 
 const EditableCell: FC<EditableCellProps> = ({
@@ -27,6 +28,7 @@ const EditableCell: FC<EditableCellProps> = ({
   setEditingKey,
   setDisabled,
   disabled,
+  dataSource,
   ...restProps
 }) => {
   const inputRef = useRef<InputRef>(null);
@@ -46,13 +48,27 @@ const EditableCell: FC<EditableCellProps> = ({
 
   const save = async () => {
     try {
-      const values = await form.validateFields();
+      const values: EditTableValues = await form.validateFields();
 
-      setEditingKey && setEditingKey(0);
-      handleSave({ ...record, ...values });
+      const newData = [...dataSource];
+      const index = newData.findIndex((row) => record.id === row.id);
+      const newRow = {
+        ...record,
+        ...values,
+        price: (values.unitPrice ?? 0) * (values.quantity ?? 0),
+      };
+
+      newData.splice(index, 1, newRow);
+
+      const recalculation = handleSave(newRow, dataSource);
+      recalculation.changed.forEach((row) => {
+        handleSave({ ...row }, newData);
+      });
+
       setDisabled(false);
+      setEditingKey && setEditingKey(0);
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      console.log("Ошибка:", errInfo);
     }
   };
 
@@ -67,14 +83,29 @@ const EditableCell: FC<EditableCellProps> = ({
           {
             required: true,
           },
+          {
+            validator:
+              dataIndex === "unitPrice" || dataIndex === "quantity"
+                ? (_, value, callback) =>
+                    !Number.isFinite(+value) ? callback("Ошибка!") : callback()
+                : undefined,
+          },
         ]}
       >
-        <Input ref={inputRef} placeholder={(record[dataIndex] ?? "").toString()} onPressEnter={save} />
+        <Input
+          ref={inputRef}
+          placeholder={(record[dataIndex] ?? "").toString()}
+          onPressEnter={save}
+        />
       </Form.Item>
     ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onDoubleClick={() => {
-        !disabled && edit()
-      }}>
+      <div
+        className="editable-cell-value-wrap"
+        style={{ paddingRight: 24 }}
+        onDoubleClick={() => {
+          !disabled && edit();
+        }}
+      >
         {children}
       </div>
     );
@@ -83,4 +114,4 @@ const EditableCell: FC<EditableCellProps> = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-export default EditableCell
+export default EditableCell;

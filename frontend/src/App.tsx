@@ -1,11 +1,11 @@
-import {Layout} from "antd";
-import React, {FC} from 'react';
-import 'antd/dist/antd.css';
-import './styles/common.scss'
-import ContentBlock from "./components/ContentBlock/ContentBlock";
-import SideBar from "./components/SideBar/SideBar";
-import Header from "./components/Header/Header";
-import style from './App.module.scss'
+import { Layout } from "antd";
+import "antd/dist/antd.css";
+import ContentBlock from "components/ContentBlock/ContentBlock";
+import Header from "components/Header/Header";
+import SideBar from "components/SideBar/SideBar";
+import React, { FC } from "react";
+import "styles/common.scss";
+import style from "./App.module.scss";
 
 const App: FC = () => {
   return (
@@ -17,6 +17,6 @@ const App: FC = () => {
       </Layout>
     </Layout>
   );
-}
+};
 
 export default App;

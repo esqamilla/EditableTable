@@ -3,7 +3,7 @@
 .table {
   :global {
     .ant-table {
-      background-color: transparent
+      background-color: transparent;
     }
 
     .ant-table-thead > tr {
@@ -42,7 +42,9 @@
       margin-bottom: 0 !important;
       border-color: $color_border_gray;
 
-      &:hover, &:focus, &:active {
+      &:hover,
+      &:focus,
+      &:active {
         border-color: $color_border_gray;
       }
 

@@ -1,5 +1,5 @@
 enum Path {
-  Index = "/"
+  Index = "/",
 }
 
-export default Path
+export default Path;

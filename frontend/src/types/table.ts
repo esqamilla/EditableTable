@@ -1,8 +1,8 @@
-export type RowDataType = 'level' | 'row'
+export type RowDataType = "level" | "row";
 
 export interface NewRowData {
   title: string; // Наименование работ
-  unit: string; // Ед. изм.
+  unit: string | null; // Ед. изм.
   quantity: number | null; // Количество
   unitPrice: number | null; // Цена за ед.
   price: number; // Стоимость
@@ -22,6 +22,11 @@ export interface SaveRowReturn {
 }
 
 export interface CreateTableRowArgs {
-  type: RowDataType,
-  parent: RowData["parent"]
+  type: RowDataType;
+  parent: RowData["parent"];
 }
+
+export type EditTableValues = Pick<
+  NewRowData,
+  "title" | "unitPrice" | "quantity" | "unit"
+>;

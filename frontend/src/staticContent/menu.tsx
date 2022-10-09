@@ -1,12 +1,12 @@
-import {Space, Typography} from "antd";
+import type { MenuProps } from "antd";
+import { Space, Typography } from "antd";
+import { MenuBoxesIcon } from "components/Icons/Icons";
+import sideBarStyles from "components/SideBar/SideBar.module.scss";
 import React from "react";
-import {MenuBoxesIcon} from "../components/Icons/Icons";
-import type { MenuProps } from 'antd';
-import sideBarStyles from "../components/SideBar/SideBar.module.scss";
 
-const { Text } = Typography
+const { Text } = Typography;
 
-type MenuItem = Required<MenuProps>['items'][number];
+type MenuItem = Required<MenuProps>["items"][number];
 
 export const sideBarMenuItems: MenuItem[] = [
   {
@@ -180,5 +180,5 @@ export const sideBarMenuItems: MenuItem[] = [
         key: "1015",
       },
     ],
-  }
-]
+  },
+];

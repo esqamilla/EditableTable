@@ -1,8 +1,8 @@
-import {Layout} from "antd";
-import React, {FC} from 'react';
+import { Layout } from "antd";
+import React, { FC } from "react";
 import TableEditable from "../TableDnd/TableEditable";
-import ContentBlockHeader from "../ContentBlock/ContentBlockHeader";
 import style from "./ContentBlock.module.scss";
+import ContentBlockHeader from "./ContentBlockHeader";
 
 interface ContentBlockProps {}
 
