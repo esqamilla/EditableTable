@@ -13,6 +13,8 @@ interface TableDndProps {}
 const TableEditable: FC<TableDndProps> = ({}) => {
   const form = useContext(EditableContext)!;
   const [dataSource, setDataSource] = useState<RowData[]>(tableData);
+  const [editingKey, setEditingKey] = useState<number>(0);
+  const [disabled, setDisabled] = useState<boolean>(false);
 
   const createTableRow = ({type, parent}: CreateTableRowArgs) => {
     const index = Math.max(...dataSource.map((v) => v.id), 0) + 1;
@@ -102,30 +104,33 @@ const TableEditable: FC<TableDndProps> = ({}) => {
       cell: EditableCell,
     },
   };
-  const [editingKey, setEditingKey] = useState<number>(0);
+
+  console.log("disabled", disabled);
 
   const isEditing = (record: RowData) => record.key === editingKey;
 
   const columns = getColumns({
       createTableRow,
       tableData: dataSource,
+      disabled
     }).map(col => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
+    return (!col.editableLevel && !col.editableRow) ? col : {
       ...col,
       onCell: (record: RowData) => ({
         record,
-        editable: col.editable,
+        editable: record.type === "level" ? col.editableLevel : col.editableRow,
         dataIndex: col.dataIndex,
         title: col.title,
         handleSave,
         editing: isEditing(record),
-        setEditingKey: setEditingKey
+        setEditingKey: setEditingKey,
+        disabled,
+        setDisabled
       }),
     };
   });
+
+  console.log("columns", columns)
 
   return (
     <Form form={form} component={false}>

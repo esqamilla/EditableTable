@@ -12,6 +12,8 @@ interface EditableCellProps {
   editing: boolean;
   setEditingKey: (key: number) => void;
   handleSave: (record: RowData) => void;
+  disabled: boolean;
+  setDisabled: (value: boolean) => void;
 }
 
 const EditableCell: FC<EditableCellProps> = ({
@@ -23,6 +25,8 @@ const EditableCell: FC<EditableCellProps> = ({
   handleSave,
   editing,
   setEditingKey,
+  setDisabled,
+  disabled,
   ...restProps
 }) => {
   const inputRef = useRef<InputRef>(null);
@@ -31,11 +35,12 @@ const EditableCell: FC<EditableCellProps> = ({
   useEffect(() => {
     if (editing) {
       form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-      inputRef.current!.focus();
+      inputRef.current && inputRef.current.focus();
     }
   }, [editing]);
 
   const edit = () => {
+    setDisabled(true);
     record.key && setEditingKey(record.key);
   };
 
@@ -45,6 +50,7 @@ const EditableCell: FC<EditableCellProps> = ({
 
       setEditingKey && setEditingKey(0);
       handleSave({ ...record, ...values });
+      setDisabled(false);
     } catch (errInfo) {
       console.log('Save failed:', errInfo);
     }
@@ -63,10 +69,12 @@ const EditableCell: FC<EditableCellProps> = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} />
+        <Input ref={inputRef} placeholder={(record[dataIndex] ?? "").toString()} onPressEnter={save} />
       </Form.Item>
     ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onDoubleClick={edit}>
+      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onDoubleClick={() => {
+        !disabled && edit()
+      }}>
         {children}
       </div>
     );

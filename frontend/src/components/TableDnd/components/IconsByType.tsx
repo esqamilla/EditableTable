@@ -15,30 +15,31 @@ interface IconsByTypeProps {
   createTableRow: GetColumnsProps["createTableRow"];
   lengthFromParent: number;
   rowFromFirstLevel: boolean;
+  disabled: boolean;
 }
 
-const IconsByType: FC<IconsByTypeProps> = ({id, rowFromFirstLevel, parent, type, createTableRow, lengthFromParent}) => {
+const IconsByType: FC<IconsByTypeProps> = ({id, disabled, rowFromFirstLevel, parent, type, createTableRow, lengthFromParent}) => {
   if (parent === null) {
     return (
-      <div className={concatClasses(style.icon, style.icon_root_level)}>
+      <div className={concatClasses(style.icon, style.icon_root_level, disabled && style.icon_disabled)}>
         <img
           src={rootLevelIconSrc}
           alt={"Уровень 1"}
           onClick={() => {
-            createTableRow({
+            !disabled && createTableRow({
               type: "level",
               parent,
             })
           }} />
         <div className={style.icon_additional_btns}>
           <img src={subLevelIconSrc} alt={"Уровень 2"} onClick={() => {
-            createTableRow({
+            !disabled && createTableRow({
               type: "level",
               parent: id,
             })
           }} />
           <img src={rowIconSrc} alt={"Строка"} onClick={() => {
-            createTableRow({
+            !disabled && createTableRow({
               type: "row",
               parent: id,
             })
@@ -50,17 +51,17 @@ const IconsByType: FC<IconsByTypeProps> = ({id, rowFromFirstLevel, parent, type,
 
   if (type === "level") {
     return (
-      <div className={concatClasses(style.icon, style.icon_sub_level)}>
+      <div className={concatClasses(style.icon, style.icon_sub_level, disabled && style.icon_disabled)}>
         <span style={{ height: `${60 * lengthFromParent}px` }} className={style.icon_helper}></span>
         <img src={subLevelIconSrc} alt={"Уровень 2"} onClick={() => {
-          createTableRow({
+          !disabled && createTableRow({
             type: "level",
             parent,
           })
         }} />
         <div className={style.icon_additional_btns}>
           <img src={rowIconSrc} alt={"Строка"} onClick={() => {
-            createTableRow({
+            !disabled && createTableRow({
               type: "row",
               parent: id,
             })
@@ -71,10 +72,10 @@ const IconsByType: FC<IconsByTypeProps> = ({id, rowFromFirstLevel, parent, type,
   }
 
   return (
-    <div className={concatClasses(style.icon, style.icon_row, rowFromFirstLevel && style.icon_row_firstLevel)}>
+    <div className={concatClasses(style.icon, style.icon_row, rowFromFirstLevel && style.icon_row_firstLevel, disabled && style.icon_disabled)}>
       <span style={{ height: `${60 * lengthFromParent}px` }} className={style.icon_helper}></span>
       <img src={rowIconSrc} alt={"Строка"} onClick={() => {
-        createTableRow({
+        !disabled && createTableRow({
           type: "row",
           parent
         })

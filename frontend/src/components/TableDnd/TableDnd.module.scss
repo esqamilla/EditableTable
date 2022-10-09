@@ -37,13 +37,17 @@
       -webkit-border-radius: 6px;
       -moz-border-radius: 6px;
       border-radius: 6px;
-      color: $color_input;
+      color: #fff;
       background-color: transparent !important;
       margin-bottom: 0 !important;
       border-color: $color_border_gray;
 
       &:hover, &:focus, &:active {
         border-color: $color_border_gray;
+      }
+
+      &::placeholder {
+        color: $color_input;
       }
     }
 
@@ -58,6 +62,14 @@
     position: relative;
     z-index: 3;
     cursor: pointer;
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+
+    img {
+      cursor: not-allowed !important;
+    }
   }
 
   &_helper {

@@ -9,15 +9,15 @@ import {toMoney, toNumberWithSpaces} from "../../utils/moneyHelper";
 export interface GetColumnsProps {
   createTableRow: (args: CreateTableRowArgs) => void;
   tableData: RowData[];
+  disabled: boolean;
 }
 
 type EditableTableProps = Parameters<typeof Table>[0];
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
-const getColumns = ({createTableRow, tableData}: GetColumnsProps): (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] => {
+const getColumns = ({createTableRow, tableData, disabled}: GetColumnsProps): (ColumnTypes[number] & { editableLevel?: boolean; editableRow?: boolean; dataIndex: string })[] => {
   const columns: ColumnsType<RowData> & { editable?: boolean } = [
     {
-      key: 'Уровень',
       title: 'Уровень',
       dataIndex: 'type',
       width: 110,
@@ -30,6 +30,7 @@ const getColumns = ({createTableRow, tableData}: GetColumnsProps): (ColumnTypes[
             id={id}
             type={type}
             parent={parent}
+            disabled={disabled}
             rowFromFirstLevel={rowFromFirstLevel}
             lengthFromParent={lengthFromParent}
             createTableRow={createTableRow}
@@ -38,48 +39,47 @@ const getColumns = ({createTableRow, tableData}: GetColumnsProps): (ColumnTypes[
       },
     },
     {
-      key: 'Наименование работ',
       title: 'Наименование работ',
       dataIndex: 'title',
-      editable: true,
+      editableLevel: true,
+      editableRow: true,
       onCell: (record) => ({
         onDoubleClick: () => {}}
       )
     },
     {
-      key: 'Ед. изм.',
       title: 'Ед. изм.',
       width: 200,
       dataIndex: 'unit',
-      editable: true,
+      editableLevel: false,
+      editableRow: true,
       onCell: (record) => ({
         onDoubleClick: () => {}
       })
     },
     {
-      key: 'Количество',
       title: 'Количество',
       width: 200,
       dataIndex: 'quantity',
-      editable: true,
+      editableLevel: false,
+      editableRow: true,
       onCell: (record) => ({
         onDoubleClick: () => {}
       }),
       render: (quantity) => toNumberWithSpaces(quantity || "")
     },
     {
-      key: 'Цена за ед.',
       title: 'Цена за ед.',
       width: 200,
       dataIndex: 'unitPrice',
-      editable: true,
+      editableLevel: false,
+      editableRow: true,
       onCell: (record) => ({
         onDoubleClick: () => {}
       }),
       render: (unitPrice) => unitPrice ? toMoney(unitPrice) : ""
     },
     {
-      key: 'Стоимость',
       title: 'Стоимость',
       width: 200,
       dataIndex: 'price',
